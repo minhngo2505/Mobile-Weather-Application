@@ -1,0 +1,48 @@
+# --- Visual Studio & MAUI ignore list ---
+
+# IDE & Build cache
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+*.pdb
+*.cache
+*.log
+
+# Device/emulator outputs
+*.apk
+*.aab
+*.ipa
+
+# MAUI specific
+Platforms/iOS/obj/
+Platforms/MacCatalyst/obj/
+Platforms/Android/obj/
+Resources/Raw/*.tmp
+
+# Temporary files
+*.tmp
+*.bak
+*.dbmdl
+*.tlog
+*.vsidx
+*.db
+*.DS_Store
+
+# Environment & secrets
+*.env
+secrets.json
+
+# Other tools
+node_modules/
+wwwroot/
