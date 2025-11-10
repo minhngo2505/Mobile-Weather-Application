@@ -1,26 +1,81 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.Pages.Mainpage"
-             BackgroundColor="White"
-             Title="Weather App">
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"
+    x:Class="MauiApp1.Pages.Mainpage"
+    Title="Weather Dashboard"
+    >
 
-    <VerticalStackLayout Padding="30" Spacing="20">
-        <Label Text="🌤️ Weather App" FontSize="28" FontAttributes="Bold" 
-               HorizontalOptions="Center" TextColor="#0078D4"/>
 
-        <Entry x:Name="CityEntry" Placeholder="Enter city name (e.g. Perth)" />
+    <!-- Scrollable content -->
+    <ScrollView Grid.Column="0">
+        <VerticalStackLayout Spacing="25">
 
-        <Button Text="Get Weather" 
-                BackgroundColor="#0078D4" 
-                TextColor="White"
-                Clicked="OnGetWeatherClicked"/>
+            <!-- 🔍 Search bar -->
+            <Border Grid.Row="0" Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="5">
+                <Grid ColumnDefinitions="*,auto">
+                    <SearchBar x:Name="CitySearchBar"
+                    Placeholder="Enter city..."
+                    SearchButtonPressed="OnSearchPressed"
+                    FontSize="18"
+                    Grid.Column="0"
+                    HorizontalOptions="Fill" />
+                </Grid>
+            </Border>
 
-        <Image x:Name="WeatherIcon" HeightRequest="100" IsVisible="False"/>
+            <!-- Current Weather -->
+            <Border Stroke="#ccc"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    >
+                <Border.Shadow>
+                    <Shadow Brush="#00000033" Radius="8" />
+                </Border.Shadow>
+                <VerticalStackLayout Padding="15">
+                    <Label x:Name="CityLabel"
+                            Text="Perth, AU"
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            HorizontalOptions="Center"/>
+                    <Label x:Name="TempLabel"
+                            Text="21°C | Clear ☀️"
+                            FontSize="22"
+                            HorizontalOptions="Center"/>
+                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 15">
+                        <Image x:Name="WeatherImage"
+                                Source="perth.jpg"
+                                Aspect="AspectFill"
+                                HeightRequest="180"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
 
-        <Label x:Name="ResultLabel" 
-               FontSize="18" 
-               HorizontalOptions="Center"
-               TextColor="Black"
-               Text=""/>
-    </VerticalStackLayout>
+            <!-- Quick Info -->
+            <Border Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                <Border.Shadow>
+                    <Shadow Brush="#00000033" Radius="8" />
+                </Border.Shadow>
+                <Grid Padding="15" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label Text="Feels like:" FontAttributes="Bold"/>
+                    <Label x:Name="FeelsLikeLabel" Grid.Column="1" Text="20°C"/>
+                    <Label Text="Humidity:" Grid.Row="1" FontAttributes="Bold"/>
+                    <Label x:Name="HumidityLabel" Grid.Row="1" Grid.Column="1" Text="60%"/>
+                    <Label Text="Wind:" Grid.Row="2" FontAttributes="Bold"/>
+                    <Label x:Name="WindLabel" Grid.Row="2" Grid.Column="1" Text="12 km/h"/>
+                </Grid>
+            </Border>
+
+            <!-- Forecast placeholder -->
+            <Border Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                <Border.Shadow>
+                    <Shadow Brush="#00000033" Radius="8" />
+                </Border.Shadow>
+                <VerticalStackLayout Padding="10">
+                    <Label Text="Next 3 Days (Coming Soon)" FontAttributes="Bold" FontSize="20"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
