@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MauiApp1.Service;
+using Microsoft.Extensions.Logging; 
 
 namespace MauiApp1
 {
@@ -9,7 +10,6 @@ namespace MauiApp1
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauicommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -18,6 +18,7 @@ namespace MauiApp1
 
 #if DEBUG
     		builder.Logging.AddDebug();
+            builder.Services.AddSingleton<WeatherService>();
 #endif
 
             return builder.Build();
