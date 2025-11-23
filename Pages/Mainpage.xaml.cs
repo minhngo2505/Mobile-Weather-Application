@@ -12,6 +12,7 @@ public partial class Mainpage : ContentPage
     {
         InitializeComponent();
         _ = LoadWeatherAsync("Perth");
+        _ = LoadHourlyAsync("perth");
     }
 
     private async Task LoadWeatherAsync(string city)
@@ -33,7 +34,7 @@ public partial class Mainpage : ContentPage
             TempLabel.Text = $"{weather.TempC}°C | {weather.Condition}";
             FeelsLikeLabel.Text = $"{weather.FeelsLikeC}°C";
             HumidityLabel.Text = $"{weather.Humidity}%";
-            WindLabel.Text = $"{weather.WindKph} km/h";
+            WindLabel.Text = $"{weather.WindKph} km/h"; 
             WeatherImage.Source = weather.IconUrl;
         }
         catch (Exception ex)
@@ -41,6 +42,18 @@ public partial class Mainpage : ContentPage
             await DisplayAlert("Error", ex.Message, "OK");
         }
     }
+    private async Task LoadHourlyAsync(string city)
+    {
+        var service = new HourlyService();
+        var hourlyList = await service.GetHourlyInfoAsync(city);
+
+        if (hourlyList == null || hourlyList.Count == 0)
+            return;
+
+        HourlyForecastView.ItemsSource = hourlyList;
+    }
+
+
 
     // 🔍 SEARCH BAR EVENTS
     private async void OnSearchPressed(object sender, EventArgs e)

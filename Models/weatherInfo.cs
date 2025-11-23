@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.Models
 {
-    internal class weatherInfo
+    public class WeatherInfo
     {
         public string City { get; set; } = string.Empty;
         public double TempC { get; set; }

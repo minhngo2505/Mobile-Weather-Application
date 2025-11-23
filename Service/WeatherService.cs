@@ -9,53 +9,41 @@ using MauiApp1.Models;
 
 namespace MauiApp1.Service
 {
-    internal class WeatherService
+    public class WeatherService
     {
-        private readonly HttpClient _client;
-        private const string ApiKey = "f6a8d7f356d14380bb1234225250911";
+        private readonly HttpClient _client = new HttpClient();
+        private const string API_KEY = "f6a8d7f356d14380bb1234225250911";
 
-        public WeatherService()
+        public async Task<WeatherInfo?> GetWeatherAsync(string city)
         {
-            _client = new HttpClient();
-            _client.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
-        }
-
-        public async Task<weatherInfo?> GetWeatherAsync(string city )
-        {
-            if (string.IsNullOrWhiteSpace(city))
-                return null;
-
             try
             {
-                string url = $"https://api.weatherapi.com/v1/current.json?key={ApiKey}&q={city.Trim()}";
-                var response = await _client.GetAsync(url);
+                string url = $"https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}";
+                var json = await _client.GetStringAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                    return null;
-
-                var json = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(json);
                 var root = doc.RootElement;
 
                 var location = root.GetProperty("location");
                 var current = root.GetProperty("current");
-                var condition = current.GetProperty("condition");
+                var cond = current.GetProperty("condition");
 
-                return new weatherInfo
+                return new WeatherInfo
                 {
-                    City = location.GetProperty("name").GetString() ?? city,
+                    City = location.GetProperty("name").GetString() ?? "",
                     TempC = current.GetProperty("temp_c").GetDouble(),
                     FeelsLikeC = current.GetProperty("feelslike_c").GetDouble(),
                     Humidity = current.GetProperty("humidity").GetInt32(),
                     WindKph = current.GetProperty("wind_kph").GetDouble(),
-                    Condition = condition.GetProperty("text").GetString() ?? "",
-                    IconUrl = "https:" + (condition.TryGetProperty("icon", out var iconProp) ? iconProp.GetString() : "")
+                    Condition = cond.GetProperty("text").GetString() ?? "",
+                    IconUrl = "https:" + cond.GetProperty("icon").GetString()
                 };
             }
-            catch (Exception)
+            catch
             {
                 return null;
             }
         }
     }
 }
+

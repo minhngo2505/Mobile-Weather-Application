@@ -1,81 +1,171 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
+    x:Class="MauiApp1.Pages.Mainpage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    ios:Page.UseSafeArea="True"
-    x:Class="MauiApp1.Pages.Mainpage"
-    Title="Weather Dashboard"
-    >
+    BackgroundColor="#1A1A1A">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- 🔍 SEARCH -->
+        <Border Grid.Row="0" Margin="15"
+                Stroke="#444" StrokeThickness="1"
+                BackgroundColor="#222" Padding="8"
+                StrokeShape="RoundRectangle 15">
+            <SearchBar x:Name="CitySearchBar"
+                       Placeholder="Search city..."
+                       TextColor="White"
+                       PlaceholderColor="#888"
+                       SearchButtonPressed="OnSearchPressed"
+                       BackgroundColor="Transparent"
+                       FontSize="18"/>
+        </Border>
 
 
-    <!-- Scrollable content -->
-    <ScrollView Grid.Column="0">
-        <VerticalStackLayout Spacing="25">
+        <!-- MAIN CONTENT -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="22" Padding="15">
 
-            <!-- 🔍 Search bar -->
-            <Border Grid.Row="0" Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="5">
-                <Grid ColumnDefinitions="*,auto">
-                    <SearchBar x:Name="CitySearchBar"
-                    Placeholder="Enter city..."
-                    SearchButtonPressed="OnSearchPressed"
-                    FontSize="18"
-                    Grid.Column="0"
-                    HorizontalOptions="Fill" />
-                </Grid>
-            </Border>
-
-            <!-- Current Weather -->
-            <Border Stroke="#ccc"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    >
-                <Border.Shadow>
-                    <Shadow Brush="#00000033" Radius="8" />
-                </Border.Shadow>
-                <VerticalStackLayout Padding="15">
+                <!-- 🌤 CURRENT WEATHER -->
+                <VerticalStackLayout Spacing="8" Padding="10">
                     <Label x:Name="CityLabel"
-                            Text="Perth, AU"
-                            FontAttributes="Bold"
-                            FontSize="26"
-                            HorizontalOptions="Center"/>
+                           Text="Perth, AU"
+                           FontSize="34"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"/>
+
                     <Label x:Name="TempLabel"
-                            Text="21°C | Clear ☀️"
-                            FontSize="22"
-                            HorizontalOptions="Center"/>
-                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 15">
-                        <Image x:Name="WeatherImage"
-                                Source="perth.jpg"
-                                Aspect="AspectFill"
-                                HeightRequest="180"/>
+                           Text="21°C | Clear"
+                           FontSize="26"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+
+                    <Image x:Name="WeatherImage"
+                           WidthRequest="120"
+                           HeightRequest="120"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+
+                <!-- 🌡 DETAILS GRID -->
+                <Grid ColumnDefinitions="*,*"
+                      RowDefinitions="Auto,Auto"
+                      ColumnSpacing="12"
+                      RowSpacing="12">
+
+                    <!-- Feels like -->
+                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12">
+                        <VerticalStackLayout Padding="12">
+                            <Label Text="Feels Like" TextColor="#aaa" />
+                            <Label x:Name="FeelsLikeLabel" Text="20°C" TextColor="White" FontSize="20"/>
+                        </VerticalStackLayout>
                     </Border>
-                </VerticalStackLayout>
-            </Border>
 
-            <!-- Quick Info -->
-            <Border Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 15">
-                <Border.Shadow>
-                    <Shadow Brush="#00000033" Radius="8" />
-                </Border.Shadow>
-                <Grid Padding="15" RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*" ColumnSpacing="10">
-                    <Label Text="Feels like:" FontAttributes="Bold"/>
-                    <Label x:Name="FeelsLikeLabel" Grid.Column="1" Text="20°C"/>
-                    <Label Text="Humidity:" Grid.Row="1" FontAttributes="Bold"/>
-                    <Label x:Name="HumidityLabel" Grid.Row="1" Grid.Column="1" Text="60%"/>
-                    <Label Text="Wind:" Grid.Row="2" FontAttributes="Bold"/>
-                    <Label x:Name="WindLabel" Grid.Row="2" Grid.Column="1" Text="12 km/h"/>
+                    <!-- Humidity -->
+                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Column="1">
+                        <VerticalStackLayout Padding="12">
+                            <Label Text="Humidity" TextColor="#aaa" />
+                            <Label x:Name="HumidityLabel" Text="60%" TextColor="White" FontSize="20"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- UV -->
+                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Row="1">
+                        <VerticalStackLayout Padding="12">
+                            <Label Text="UV Index" TextColor="#aaa" />
+                            <Label x:Name="UVLabel" Text="5 Moderate" TextColor="White" FontSize="20"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Wind -->
+                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Row="1" Grid.Column="1">
+                        <VerticalStackLayout Padding="12">
+                            <Label Text="Wind" TextColor="#aaa" />
+                            <Label x:Name="WindLabel" Text="12 km/h NW" TextColor="White" FontSize="20"/>
+                        </VerticalStackLayout>
+                    </Border>
+
                 </Grid>
-            </Border>
 
-            <!-- Forecast placeholder -->
-            <Border Stroke="#ccc" StrokeThickness="1" StrokeShape="RoundRectangle 15">
-                <Border.Shadow>
-                    <Shadow Brush="#00000033" Radius="8" />
-                </Border.Shadow>
-                <VerticalStackLayout Padding="10">
-                    <Label Text="Next 3 Days (Coming Soon)" FontAttributes="Bold" FontSize="20"/>
-                </VerticalStackLayout>
-            </Border>
-        </VerticalStackLayout>
-    </ScrollView>
+
+                <!-- HOURLY FORECAST -->
+                <Border Stroke="#CCCCCC" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout Padding="10" Spacing="10">
+
+                        <Label Text="Hourly Forecast"
+               FontAttributes="Bold"
+               FontSize="20" 
+                  TextColor="#aaa"/>
+
+                        <CollectionView x:Name="HourlyForecastView"
+                        ItemsLayout="HorizontalList"
+                        HeightRequest="120"
+                        HorizontalScrollBarVisibility="Never">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Stroke="#ccc"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="8"
+                            WidthRequest="80"
+                            Margin="5">
+
+                                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+
+                                            <Label Text="{Binding Time}"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   TextColor="Black" />
+
+                                            <Image Source="{Binding IconUrl}"
+                                   HeightRequest="40"
+                                   HorizontalOptions="Center" />
+
+                                            <Label Text="{Binding TempC}"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   TextColor="Black" />
+
+                                        </VerticalStackLayout>
+
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+                </Border>
+
+
+                <!-- 10 DAY FORECAST -->
+                
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+        <!-- ⭐ BOTTOM BAR -->
+        <Grid Grid.Row="2"
+              Padding="20"
+              BackgroundColor="#111"
+              ColumnDefinitions="*,*">
+
+            <Image Source="map_icon.png"
+                   HeightRequest="28"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"/>
+
+            <Image Source="menu_icon.png"
+                   HeightRequest="28"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center"/>
+
+        </Grid>
+
+    </Grid>
+
 </ContentPage>
