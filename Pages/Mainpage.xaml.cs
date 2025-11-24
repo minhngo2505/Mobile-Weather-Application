@@ -13,6 +13,7 @@ public partial class Mainpage : ContentPage
     {
         InitializeComponent();
         _ = LoadWeatherAsync("Perth");
+        _ = LoadTenDaysAsync("perth");
        
     }
 
@@ -88,6 +89,20 @@ public partial class Mainpage : ContentPage
         await LoadWeatherAsync(city);
         
 
+    }
+    private async Task LoadTenDaysAsync(string city)
+    {
+        try
+        {
+            var service = new _10daysService();
+            var list = await service.GetTenDayAsync(city);
+
+            TenDayForecast.ItemsSource = list;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 
 
