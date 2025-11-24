@@ -11,5 +11,7 @@ namespace MauiApp1.Models
         public string Time { get; set; } = string.Empty;
         public double TempC { get; set; }
         public string IconUrl { get; set; } = string.Empty;
+        public string sunrise { get; set; } = string.Empty;
+        public String sunset { get; set; } = String.Empty;
     }
 }

@@ -1,4 +1,5 @@
-﻿using MauiApp1.Models;
+﻿using System;
+using MauiApp1.Models;
 using MauiApp1.Service;
 using Microsoft.Maui.Controls;
 
@@ -12,7 +13,7 @@ public partial class Mainpage : ContentPage
     {
         InitializeComponent();
         _ = LoadWeatherAsync("Perth");
-        _ = LoadHourlyAsync("perth");
+       
     }
 
     private async Task LoadWeatherAsync(string city)
@@ -36,21 +37,41 @@ public partial class Mainpage : ContentPage
             HumidityLabel.Text = $"{weather.Humidity}%";
             WindLabel.Text = $"{weather.WindKph} km/h"; 
             WeatherImage.Source = weather.IconUrl;
+            await LoadHourlyAsync(city, weather.LocalTime);
+
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", ex.Message, "OK");
         }
+        
     }
-    private async Task LoadHourlyAsync(string city)
+    private async Task LoadHourlyAsync(string city, string LocalTime)
     {
-        var service = new HourlyService();
-        var hourlyList = await service.GetHourlyInfoAsync(city);
+        try
+        {
+            var service = new HourlyService();
+            var hourlyList = await service.GetHourlyInfoAsync(city);
 
-        if (hourlyList == null || hourlyList.Count == 0)
-            return;
+            if (hourlyList == null || hourlyList.Count == 0)
+                return;
 
-        HourlyForecastView.ItemsSource = hourlyList;
+            var locTime = DateTime.Parse(LocalTime);
+            int currentHour = locTime.Hour;            
+            var rotated = hourlyList
+                .Skip(currentHour)
+                .Concat(hourlyList.Take(currentHour))
+                .Take(24)
+                .ToList();
+
+            HourlyForecastView.ItemsSource = rotated;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("error", ex.Message, "ok");
+        }
+
+
     }
 
 
@@ -65,6 +86,8 @@ public partial class Mainpage : ContentPage
             return;
         }
         await LoadWeatherAsync(city);
+        
+
     }
 
 
@@ -82,4 +105,5 @@ public partial class Mainpage : ContentPage
     {
         await LoadWeatherAsync(CityLabel.Text ?? "Perth");
     }
+
 }
