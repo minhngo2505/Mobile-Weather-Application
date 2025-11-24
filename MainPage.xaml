@@ -4,23 +4,5 @@
              BackgroundColor="White"
              Title="Weather App">
 
-    <VerticalStackLayout Padding="30" Spacing="20">
-        <Label Text="🌤️ Weather App" FontSize="28" FontAttributes="Bold" 
-               HorizontalOptions="Center" TextColor="#0078D4"/>
-
-        <Entry x:Name="CityEntry" Placeholder="Enter city name (e.g. Perth)" />
-
-        <Button Text="Get Weather" 
-                BackgroundColor="#0078D4" 
-                TextColor="White"
-                Clicked="OnGetWeatherClicked"/>
-
-        <Image x:Name="WeatherIcon" HeightRequest="100" IsVisible="False"/>
-
-        <Label x:Name="ResultLabel" 
-               FontSize="18" 
-               HorizontalOptions="Center"
-               TextColor="Black"
-               Text=""/>
-    </VerticalStackLayout>
+    
 </ContentPage>
