@@ -97,7 +97,7 @@
                         <Label Text="Hourly Forecast"
                     FontAttributes="Bold"
                     FontSize="20" 
-                        TextColor="#aaa"/>
+                        TextColor="#ccc"/>
 
                         <CollectionView x:Name="HourlyForecastView"
                             ItemsLayout="HorizontalList"
@@ -146,7 +146,8 @@
 
                         <Label Text="10-Day Forecast"
                    FontAttributes="Bold"
-                   FontSize="20"/>
+                   FontSize="20"
+                               TextColor="#ccc"/>
 
                         <CollectionView x:Name="TenDayForecast"
                             HeightRequest="400">
@@ -161,7 +162,8 @@
                                             <!-- Day -->
                                             <Label Text="{Binding Day}" 
                                        FontAttributes="Bold" 
-                                       Grid.Column="0"/>
+                                       Grid.Column="0"
+                                                   TextColor="#ccc"/>
 
                                             <!-- Icon -->
                                             <Image Source="{Binding IconUrl}"
@@ -170,11 +172,11 @@
 
                                             <!-- Temps -->
                                             <Label  Text="{Binding MaxTemp}" 
-                                       TextColor="White"
+                                       TextColor="black"
                                        Grid.Column="2"/>
 
                                             <Label Text="{Binding MinTemp}"
-                                       TextColor="#AAAAAA"
+                                       TextColor="black"
                                        Grid.Column="3"/>
                                         </Grid>
                                     </Border>
@@ -186,26 +188,5 @@
                 </Border>
             </VerticalStackLayout>
         </ScrollView>
-
-
-        <!-- ⭐ BOTTOM BAR -->
-        <Grid Grid.Row="2"
-              Padding="20"
-              BackgroundColor="#111"
-              ColumnDefinitions="*,*">
-
-            <Image Source="map_icon.png"
-                   HeightRequest="28"
-                   HorizontalOptions="Start"
-                   VerticalOptions="Center"/>
-
-            <Image Source="menu_icon.png"
-                   HeightRequest="28"
-                   HorizontalOptions="End"
-                   VerticalOptions="Center"/>
-
-        </Grid>
-
     </Grid>
-
 </ContentPage>
