@@ -87,6 +87,7 @@ public partial class Mainpage : ContentPage
             return;
         }
         await LoadWeatherAsync(city);
+        await LoadTenDaysAsync(city);
         
 
     }
