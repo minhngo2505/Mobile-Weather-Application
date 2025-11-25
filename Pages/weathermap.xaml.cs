@@ -1,8 +1,8 @@
 namespace MauiApp1.Pages;
 
-public partial class weathermap : ContentPage
+public partial class Weathermap : ContentPage
 {
-	public weathermap()
+	public Weathermap()
 	{
 		InitializeComponent();
 	}
