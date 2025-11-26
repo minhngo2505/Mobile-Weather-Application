@@ -6,10 +6,26 @@
     xmlns:pages="clr-namespace:MauiApp1.Pages"
     Title="Weather App">
 
-    <!-- Home Page -->
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:Mainpage}"
-        Route="MainPage" />
+    <!--tab bar -->
+    <TabBar>
+        <ShellContent 
+            Title="Home"
+            Icon="home.jpg"
+            ContentTemplate="{DataTemplate pages:Mainpage}" />
+
+        <ShellContent 
+            Title="Favourites"
+            Icon="star.jpg"
+            ContentTemplate="{DataTemplate pages:Favouritepage}" />
+
+        <ShellContent 
+            Title="Settings"
+            Icon="setting.jpg"
+            ContentTemplate="{DataTemplate pages:Settingpage}" />
+    </TabBar>
+    <!-- register page -->
+    <ShellContent 
+        Route="MapPage"
+        ContentTemplate="{DataTemplate pages:Weathermap}" />
 
 </Shell>

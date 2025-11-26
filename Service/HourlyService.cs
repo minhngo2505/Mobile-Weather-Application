@@ -44,6 +44,7 @@ namespace MauiApp1.Service
                 });
             }
             return list;
+
         }
 
     }
