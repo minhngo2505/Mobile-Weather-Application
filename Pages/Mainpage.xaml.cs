@@ -121,5 +121,9 @@ public partial class Mainpage : ContentPage
     {
         await LoadWeatherAsync(CityLabel.Text ?? "Perth");
     }
-
+    private async void OnMapButtonClicked(object sender, EventArgs e)
+    {
+        string city = CityLabel.Text ?.Trim() ?? "Perth";
+        await Shell.Current.GoToAsync($"MapPage?city={city}");
+    }
 }

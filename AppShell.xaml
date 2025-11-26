@@ -23,9 +23,4 @@
             Icon="setting.jpg"
             ContentTemplate="{DataTemplate pages:Settingpage}" />
     </TabBar>
-    <!-- register page -->
-    <ShellContent 
-        Route="MapPage"
-        ContentTemplate="{DataTemplate pages:Weathermap}" />
-
 </Shell>

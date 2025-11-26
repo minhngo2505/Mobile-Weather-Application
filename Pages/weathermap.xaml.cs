@@ -1,9 +1,12 @@
 namespace MauiApp1.Pages;
 
+[QueryProperty(nameof(City),"city")]
 public partial class Weathermap : ContentPage
 {
-	public Weathermap()
+	public string City { get; set; } = "";
+    protected override void OnAppearing()
 	{
-		InitializeComponent();
-	}
+		RadarWebView.Source = $"https://www.windy.com/?{City}";
+    }
+
 }

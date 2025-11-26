@@ -185,7 +185,25 @@
                         </CollectionView>
 
                     </VerticalStackLayout>
+                    
                 </Border>
+                <Button 
+                        x:Name="MapButton"
+                        Text="Open Weather Map"
+                        ImageSource="map.png"
+                        BackgroundColor="#333333"
+                        TextColor="White"
+                        CornerRadius="25"
+                        HeightRequest="55"
+                        WidthRequest="220"
+                        HorizontalOptions="Center"
+                        Padding="10"
+                        Clicked="OnMapButtonClicked"
+                        Margin="0,10,0,25">
+                    <Button.Shadow>
+                        <Shadow Brush="#00000055" Opacity="0.4" Radius="8" />
+                    </Button.Shadow>
+                </Button>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
