@@ -37,7 +37,9 @@ namespace MauiApp1.Service
                     WindKph = current.GetProperty("wind_kph").GetDouble(),
                     Condition = cond.GetProperty("text").GetString() ?? "",
                     IconUrl = "https:" + cond.GetProperty("icon").GetString(),
-                    LocalTime = location.GetProperty("localtime").GetString()??""
+                    LocalTime = location.GetProperty("localtime").GetString()??"",
+                    Lat = location.GetProperty("lat").GetDouble(), 
+                    Lon = location.GetProperty("lon").GetDouble()
                 };
             }
             catch

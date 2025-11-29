@@ -17,6 +17,9 @@ namespace MauiApp1.Models
         public string Condition { get; set; } = string.Empty;
         public string IconUrl { get; set; } = string.Empty;
         public string LocalTime { get; set; } = string.Empty;
+        public double Lat { get; set; }
+        public double Lon { get; set; }
+
 
 
     }

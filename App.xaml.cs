@@ -5,7 +5,6 @@
         public App()
         {
             InitializeComponent();
-            Routing.RegisterRoute("MapPage", typeof(Pages.Weathermap));
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

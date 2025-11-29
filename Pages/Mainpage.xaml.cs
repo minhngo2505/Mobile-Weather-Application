@@ -2,12 +2,16 @@
 using MauiApp1.Models;
 using MauiApp1.Service;
 using Microsoft.Maui.Controls;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace MauiApp1.Pages;
 
 public partial class Mainpage : ContentPage
 {
     private readonly WeatherService _weatherService = new();
+
+    private WeatherInfo? _lastWeather;
 
     public Mainpage()
     {
@@ -25,19 +29,21 @@ public partial class Mainpage : ContentPage
             FeelsLikeLabel.Text = HumidityLabel.Text = WindLabel.Text = "-";
 
             var weather = await _weatherService.GetWeatherAsync(city);
+            
 
             if (weather == null)
             {
                 await DisplayAlert("Error", "Unable to load weather data.", "OK");
                 return;
             }
-
+            _lastWeather = weather;
             CityLabel.Text = weather.City;
             TempLabel.Text = $"{weather.TempC}°C | {weather.Condition}";
             FeelsLikeLabel.Text = $"{weather.FeelsLikeC}°C";
             HumidityLabel.Text = $"{weather.Humidity}%";
             WindLabel.Text = $"{weather.WindKph} km/h"; 
             WeatherImage.Source = weather.IconUrl;
+            
             await LoadHourlyAsync(city, weather.LocalTime);
 
         }
@@ -90,6 +96,7 @@ public partial class Mainpage : ContentPage
         await LoadTenDaysAsync(city);
         
 
+
     }
     private async Task LoadTenDaysAsync(string city)
     {
@@ -113,6 +120,7 @@ public partial class Mainpage : ContentPage
         {
             string city = item.Text.Split(',')[0];
             await LoadWeatherAsync(city);
+            await LoadTenDaysAsync(city);
         }
     }
 
@@ -121,9 +129,14 @@ public partial class Mainpage : ContentPage
     {
         await LoadWeatherAsync(CityLabel.Text ?? "Perth");
     }
+
     private async void OnMapButtonClicked(object sender, EventArgs e)
     {
-        string city = CityLabel.Text ?.Trim() ?? "Perth";
-        await Shell.Current.GoToAsync($"MapPage?city={city}");
+        if (_lastWeather == null)
+            return;
+        String lat = _lastWeather.Lat.ToString(CultureInfo.InvariantCulture);
+        String lon = _lastWeather.Lon.ToString(CultureInfo.InvariantCulture);
+        await Shell.Current.GoToAsync($"MapPage?lat={lat}&lon={lon}");
+        
     }
 }
