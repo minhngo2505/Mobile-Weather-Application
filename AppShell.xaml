@@ -7,11 +7,11 @@
     Title="Weather App">
 
     <!--tab bar -->
-    <TabBar>
+    <TabBar >
         <ShellContent 
             Title="Home"
             Icon="home.jpg"
-            ContentTemplate="{DataTemplate pages:Mainpage}" />
+            ContentTemplate="{DataTemplate pages:Mainpage}"  />
 
         <ShellContent 
             Title="Favourites"

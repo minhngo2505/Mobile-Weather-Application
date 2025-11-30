@@ -3,10 +3,76 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.Pages.Settingpage"
              Title="Settingpage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!-- Header -->
+            <Label Text="Settings"
+                   FontSize="{DynamicResource AppFontSize}"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   TextColor="{DynamicResource PrimaryTextColor}"/>
+
+            <!-- THEME -->
+            <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                <Label Text="Theme" FontSize="{DynamicResource AppFontSize}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                <Switch x:Name="ThemeSwitch"
+                        Toggled="OnThemeToggled"
+                        Grid.Column="1"
+                        OnColor="{DynamicResource PrimaryColor}"
+                        ThumbColor="{DynamicResource SecondaryColor}"/>
+            </Grid>
+            <BoxView HeightRequest="1" BackgroundColor="{DynamicResource SecondaryColor}"/>
+
+            <!-- UNITS -->
+            <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                <Label Text="Units" FontSize="{DynamicResource AppFontSize}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                <Button x:Name="UnitsButton"
+                        Text="°C / °F"
+                        FontSize="{DynamicResource AppFontSize}"
+                        Clicked="OnUnitsClicked"
+                        Grid.Column="1" 
+                        TextColor="{DynamicResource PrimaryTextColor}"
+                        BackgroundColor="{DynamicResource PrimaryColor}"/>
+            </Grid>
+            <BoxView HeightRequest="1" BackgroundColor="{DynamicResource SecondaryColor}" />
+
+            <!-- FONT SIZE -->
+            <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                <Label Text="Font" FontSize="{DynamicResource AppFontSize}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                <HorizontalStackLayout Grid.Column="1" Spacing="10">
+                    <Button x:Name="FontSmall" Text="A" Clicked="OnFontClicked" BackgroundColor="{DynamicResource PrimaryColor}"
+                            TextColor="{DynamicResource PrimaryTextColor}"/>
+                    <Button x:Name="FontMedium" Text="Aa" Clicked="OnFontClicked" BackgroundColor="{DynamicResource PrimaryColor}"
+                            TextColor="{DynamicResource PrimaryTextColor}" />
+                    <Button x:Name="FontLarge" Text="AA" Clicked="OnFontClicked" BackgroundColor="{DynamicResource PrimaryColor}"
+                            TextColor="{DynamicResource PrimaryTextColor}"/>
+                </HorizontalStackLayout>
+            </Grid>
+            <BoxView HeightRequest="1" BackgroundColor="{DynamicResource SecondaryColor}" />
+
+            <!-- CONTRAST -->
+            <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                <Label Text="Contrast" FontSize="{DynamicResource AppFontSize}"   TextColor="{DynamicResource PrimaryTextColor}"/>
+                <Switch x:Name="ContrastSwitch"
+                        Toggled="OnContrastToggled"
+                        Grid.Column="1"
+                        OnColor="{DynamicResource PrimaryColor}"
+                        ThumbColor="{DynamicResource SecondaryColor}"/>
+            </Grid>
+            <BoxView HeightRequest="1"  BackgroundColor="{DynamicResource SecondaryColor}"  />
+
+            <!-- NOTIFICATIONS -->
+            <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                <Label Text="Notifications" FontSize="{DynamicResource AppFontSize}"  TextColor="{DynamicResource PrimaryTextColor}" />
+                <Switch x:Name="NotificationSwitch"
+                        Toggled="OnNotificationsToggled"
+                        Grid.Column="1" 
+                        OnColor="{DynamicResource PrimaryColor}"
+                        ThumbColor="{DynamicResource SecondaryColor}"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

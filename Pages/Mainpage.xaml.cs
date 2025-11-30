@@ -18,7 +18,8 @@ public partial class Mainpage : ContentPage
         InitializeComponent();
         _ = LoadWeatherAsync("Perth");
         _ = LoadTenDaysAsync("perth");
-       
+        
+
     }
 
     private async Task LoadWeatherAsync(string city)
