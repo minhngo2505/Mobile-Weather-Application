@@ -5,9 +5,10 @@
     <Color x:Key="PageBackgroundColor">white</Color>
     <Color x:Key="NavigationBarColor">WhiteSmoke</Color>
     <Color x:Key="PrimaryColor">grey</Color>
+    <Color x:Key="PrimaryTextColorHighContrast">red</Color> 
     <Color x:Key="SecondaryColor">#6200EE</Color>
     <Color x:Key="PrimaryTextColor">Black</Color>
-    <Color x:Key="PrimaryTextColorHighContrast">Yellow</Color>
+    <Color x:Key="PrimaryHighContrastColor">Yellow</Color>
     <Color x:Key="SecondaryTextColor">#333333</Color>
     <Color x:Key="TertiaryTextColor">Gray</Color>
     <Color x:Key="TransparentColor">Transparent</Color>

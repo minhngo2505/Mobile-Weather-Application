@@ -44,7 +44,7 @@ namespace MauiApp1
             SetTheme(isDark ? "dark" : "light");
 
             // FONT SIZE
-            int fontSize = Preferences.Get("font_size", 18); // medium default
+            int fontSize = Preferences.Get("font_size", 20); // medium default
             SetFontSize(fontSize);
 
             // CONTRAST MODE
@@ -53,11 +53,40 @@ namespace MauiApp1
         }
         public void SetFontSize(int fontSize)
         {
-            Application.Current.Resources["AppFontSize"] = fontSize;
+            var app = Application.Current!;
+            if (app == null) return;
+            app.Resources["AppFontSize"] = fontSize;
         }
         public void SetContrast(bool highConstrast)
         {
-            Application.Current.Resources["HighContrast"] = highConstrast;
+            var root = Application.Current!.Resources;
+            if (root == null) return;
+            root["HighContrast"] = highConstrast;
+            var themdict = root.MergedDictionaries
+                .FirstOrDefault(d => d is LightTheme || d is DarkTheme);
+            if (themdict is null)
+                return;
+            var bgkey = highConstrast ? "PrimaryHighContrastColor" : "PrimaryColor";
+            var textkey = highConstrast ? "PrimaryTextColorHighContrast" : "PrimaryTextColor";
+            if (themdict.TryGetValue(bgkey, out var bgColor))
+            {
+                root["PrimaryColor"] = bgColor;
+            }
+            if (themdict.TryGetValue(textkey, out var textColor))
+            {
+                root["PrimaryTextColor"] = textColor;
+            }
+
+
+
+            //var res = Application.Current!.Resources;
+            //var key = highConstrast ? "PrimaryHighContrastColor" : "PrimaryColor";
+            //if (res.TryGetValue(key, out var color))
+            //{
+            //    res["PrimaryColor"] = color;
+            //}
+
+            //res["HighContrast"] = highConstrast;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
