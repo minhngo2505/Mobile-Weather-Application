@@ -68,6 +68,7 @@ namespace MauiApp1
                 return;
             var bgkey = highConstrast ? "PrimaryHighContrastColor" : "PrimaryColor";
             var textkey = highConstrast ? "PrimaryTextColorHighContrast" : "PrimaryTextColor";
+            var setextkey = highConstrast ? "SecondaryTextcolorHighContrast" : "SecondaryTextColor";
             if (themdict.TryGetValue(bgkey, out var bgColor))
             {
                 root["PrimaryColor"] = bgColor;
@@ -76,17 +77,11 @@ namespace MauiApp1
             {
                 root["PrimaryTextColor"] = textColor;
             }
+            if (themdict.TryGetValue(setextkey, out var setextcolor))
+            {
+                root["SecondaryTextColor"] = setextcolor;
+            }
 
-
-
-            //var res = Application.Current!.Resources;
-            //var key = highConstrast ? "PrimaryHighContrastColor" : "PrimaryColor";
-            //if (res.TryGetValue(key, out var color))
-            //{
-            //    res["PrimaryColor"] = color;
-            //}
-
-            //res["HighContrast"] = highConstrast;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

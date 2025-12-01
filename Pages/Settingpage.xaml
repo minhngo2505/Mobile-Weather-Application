@@ -16,13 +16,15 @@
 
             <!-- THEME -->
             <Grid ColumnDefinitions="*,Auto" Padding="0,10">
+                
                 <Label Text="Theme" FontSize="{DynamicResource AppFontSize}" TextColor="{DynamicResource PrimaryTextColor}"/>
                 <Switch x:Name="ThemeSwitch"
-                        Toggled="OnThemeToggled"
-                        Grid.Column="1"
-                        OnColor="{DynamicResource PrimaryColor}"
-                        ThumbColor="{DynamicResource SecondaryColor}"/>
+                            Toggled="OnThemeToggled"
+                            Grid.Column="1"
+                            OnColor="{DynamicResource PrimaryColor}"
+                            ThumbColor="{DynamicResource SecondaryColor}"/>
             </Grid>
+            
             <BoxView HeightRequest="1" BackgroundColor="{DynamicResource SecondaryColor}"/>
 
             <!-- UNITS -->

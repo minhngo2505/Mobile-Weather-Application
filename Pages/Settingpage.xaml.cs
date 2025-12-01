@@ -8,7 +8,7 @@ public partial class Settingpage : ContentPage
     {
         InitializeComponent();
 
-        ThemeSwitch.IsToggled = Preferences.Get("isDarkTheme", true);
+        ThemeSwitch.IsToggled = Preferences.Get("isDarkTheme", false);
         NotificationSwitch.IsToggled = Preferences.Get("notify", false);
         ContrastSwitch.IsToggled = Preferences.Get("contrast", false);
 
@@ -65,5 +65,11 @@ public partial class Settingpage : ContentPage
     {
         Preferences.Set("contrast", e.Value);
         (Application.Current as App)?.SetContrast(e.Value);
+    }
+    private async void OnInfoTapped(object sender, EventArgs e)
+    {
+        await DisplayAlert("Dark Theme",
+                           "Turn on to enable dark theme for the app.",
+                           "OK");
     }
 }
