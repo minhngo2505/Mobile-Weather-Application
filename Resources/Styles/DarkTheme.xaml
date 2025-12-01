@@ -4,7 +4,8 @@
              x:Class="MauiApp1.Resources.Styles.DarkTheme">
     <Color x:Key="PageBackgroundColor">black</Color>
     <Color x:Key="NavigationBarColor">Teal</Color>
-    <Color x:Key="PrimaryColor">Teal</Color>
+    <Color x:Key="Primarycolor">Teal</Color>
+    <Color x:Key="PrimaryColorHighContrast">red</Color>
     <Color x:Key="SecondaryColor">White</Color>
     <Color x:Key="PrimaryTextColor">White</Color>
     <Color x:Key="PrimaryTextColorHighContrast">Yellow</Color>

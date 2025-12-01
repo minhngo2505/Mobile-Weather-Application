@@ -12,12 +12,9 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- 2️⃣ GLOBAL DYNAMIC VALUES -->
             <x:Double x:Key="AppFontSize">20</x:Double>
             <x:Boolean x:Key="HighContrast">False</x:Boolean>
 
-
-            <!-- 3️⃣ GLOBAL STYLES (safe, AFTER themes loaded) -->
             <Style TargetType="Label">
                 <Setter Property="FontSize" 
                         Value="{DynamicResource AppFontSize}" />
@@ -29,6 +26,7 @@
             <Style TargetType="Button">
                 <Setter Property="FontSize" 
                         Value="{DynamicResource AppFontSize}" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
             </Style>
 
         </ResourceDictionary>

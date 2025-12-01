@@ -1,4 +1,5 @@
 ﻿using MauiApp1.Resources.Styles;
+using Microsoft.Maui.Controls.Shapes;
 
 
 namespace MauiApp1
@@ -53,12 +54,28 @@ namespace MauiApp1
         }
         public void SetFontSize(int fontSize)
         {
-            Application.Current.Resources["AppFontSize"] = fontSize;
+            var app = Application.Current;
+            if (app is null) return;
+
+            app.Resources["AppFontSize"] = fontSize;
         }
         public void SetContrast(bool highConstrast)
         {
-            Application.Current.Resources["HighContrast"] = highConstrast;
-        }
+            var root = Application.Current!.Resources;
+            if(root == null) return;
+            root["HighContrast"]= highConstrast;
+            var themeDict = root.MergedDictionaries.FirstOrDefault(d => d is LightTheme || d is DarkTheme);
+            if(themeDict is null) 
+                return;
+            var bgkey = highConstrast ? "PrimaryColorHighContrast" : "Primarycolor";
+            var textkey = highConstrast ? "PrimaryTextColorHighContrast" : "PrimaryTextColor";
+
+            if (themeDict.TryGetValue(bgkey, out var bg))
+                root["Primarycolor"] = bg;
+            if (themeDict.TryGetValue(textkey, out var txt))
+                root["Primarytextcolor"] = txt;
+            
+        }  
 
         protected override Window CreateWindow(IActivationState? activationState)
         {

@@ -8,7 +8,7 @@ public partial class Settingpage : ContentPage
     {
         InitializeComponent();
 
-        ThemeSwitch.IsToggled = Preferences.Get("isDarkTheme", true);
+        ThemeSwitch.IsToggled = Preferences.Get("isDarkTheme", false);
         NotificationSwitch.IsToggled = Preferences.Get("notify", false);
         ContrastSwitch.IsToggled = Preferences.Get("contrast", false);
 
@@ -57,6 +57,7 @@ public partial class Settingpage : ContentPage
     private void OnNotificationsToggled(object sender, ToggledEventArgs e)
     {
         Preferences.Set("notify", e.Value);
+
 
     }
 
