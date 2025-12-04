@@ -12,13 +12,27 @@
                 Stroke="{DynamicResource SecondaryTextColor}" StrokeThickness="1"
                 BackgroundColor="{DynamicResource PrimaryColor}" Padding="8"
                 StrokeShape="RoundRectangle 15">
-            <SearchBar x:Name="CitySearchBar"
-                       Placeholder="Search city..."
-                       TextColor="{DynamicResource PrimaryTextColor}"
-                       PlaceholderColor="{DynamicResource SecondaryTextColor}"
-                       SearchButtonPressed="OnSearchPressed"
-                       BackgroundColor="Transparent"
-                       FontSize="{DynamicResource AppFontSize}"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <SearchBar x:Name="CitySearchBar"
+                               Placeholder="Search city..."
+                               TextColor="{DynamicResource PrimaryTextColor}"
+                               PlaceholderColor="{DynamicResource SecondaryTextColor}"
+                               SearchButtonPressed="OnSearchPressed"
+                               BackgroundColor="Transparent"
+                               Grid.Column="0"
+                               FontSize="{DynamicResource AppFontSize}"/>
+                <Image Source="star.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnstarTapped"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+            </Grid>
         </Border>
 
 
@@ -121,7 +135,7 @@
                                         HeightRequest="40"
                                         HorizontalOptions="Center" />
 
-                                            <Label Text="{Binding TempC, StringFormat='{}{0}°C'}" 
+                                            <Label Text="{Binding TempDisplay}" 
                                         FontSize="14"
                                         HorizontalOptions="Center"
                                         TextColor="{DynamicResource PrimaryTextColor}" />
@@ -155,27 +169,25 @@
                                             StrokeShape="RoundRectangle 10"
                                             Padding="10"
                                             Margin="5">
-                                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="15">
+                                        <Grid ColumnDefinitions="*,Auto, Auto, Auto" ColumnSpacing="15" >
 
                                             <!-- Day -->
                                             <Label Text="{Binding Day}" 
                                                    FontAttributes="Bold" 
                                                    Grid.Column="0"
                                                    TextColor="{DynamicResource PrimaryTextColor}"/>
-
+                                            <!-- max Temp -->
+                                            <Label  Text="{Binding MaxTempDisplay}" 
+                                                    TextColor="{DynamicResource PrimaryTextColor}"
+                                                    Grid.Column="1"/>
                                             <!-- Icon -->
                                             <Image Source="{Binding IconUrl}"
-                                       HeightRequest="30"
-                                       Grid.Column="1"/>
-
-                                            <!-- Temps -->
-                                            <Label  Text="{Binding MaxTemp , StringFormat='{}{0}°C'}" 
-                                       TextColor="{DynamicResource PrimaryTextColor}"
-                                       Grid.Column="2"/>
-
-                                            <Label Text="{Binding MinTemp , StringFormat='{}{0}°C'}"
-                                       TextColor="{DynamicResource PrimaryTextColor}"
-                                       Grid.Column="3"/>
+                                                   HeightRequest="30"
+                                                   Grid.Column="2"/>
+                                            <!--Min temp-->
+                                            <Label Text="{Binding MinTempDisplay}"
+                                                   TextColor="{DynamicResource PrimaryTextColor}"
+                                                   Grid.Column="3"/>    
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

@@ -57,6 +57,15 @@ public partial class Settingpage : ContentPage
     private void OnNotificationsToggled(object sender, ToggledEventArgs e)
     {
         Preferences.Set("notify", e.Value);
+        if (e.Value)
+        {
+            DisplayAlert("Notifications Enabled", "Weather notifications have been enabled.", "OK");
+
+        }
+        else
+        {
+            DisplayAlert("Notifications Disabled", "Weather notifications have been disabled.", "OK");
+        }
 
     }
 
@@ -65,11 +74,5 @@ public partial class Settingpage : ContentPage
     {
         Preferences.Set("contrast", e.Value);
         (Application.Current as App)?.SetContrast(e.Value);
-    }
-    private async void OnInfoTapped(object sender, EventArgs e)
-    {
-        await DisplayAlert("Dark Theme",
-                           "Turn on to enable dark theme for the app.",
-                           "OK");
     }
 }

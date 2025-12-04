@@ -11,5 +11,14 @@ namespace MauiApp1.Models
         public string Time { get; set; } = string.Empty;
         public double TempC { get; set; }
         public string IconUrl { get; set; } = string.Empty;
+        public string TempDisplay
+        {
+            get
+            {
+                string unit = Preferences.Get("units", "C");
+                double value = unit == "C" ? TempC : (TempC * 9 / 5) + 32;
+                return unit == "C" ? $"{value:0.#}°C" : $"{value:0.#}°F";
+            }
+        }
     }
 }
