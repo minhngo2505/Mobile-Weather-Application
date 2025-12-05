@@ -1,14 +1,37 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MauiApp1"
-             x:Class="MauiApp1.App">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MauiApp1.App">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Shared tokens and styles always loaded -->
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- 2️⃣ GLOBAL DYNAMIC VALUES -->
+            <x:Double x:Key="AppFontSize">20</x:Double>
+            <x:Boolean x:Key="HighContrast">False</x:Boolean>
+
+
+            <!-- 3️⃣ GLOBAL STYLES (safe, AFTER themes loaded) -->
+            <Style TargetType="Label">
+                <Setter Property="FontSize" 
+                        Value="{DynamicResource AppFontSize}" />
+
+                <Setter Property="TextColor" 
+                        Value="{DynamicResource PrimaryTextColor}" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="FontSize" 
+                        Value="{DynamicResource AppFontSize}" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
+
 </Application>

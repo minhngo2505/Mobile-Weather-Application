@@ -7,11 +7,12 @@
     Title="Weather App">
 
     <!--tab bar -->
-    <TabBar>
+    <TabBar >
         <ShellContent 
             Title="Home"
             Icon="home.jpg"
-            ContentTemplate="{DataTemplate pages:Mainpage}" />
+            Route="Mainpage"
+            ContentTemplate="{DataTemplate pages:Mainpage}"  />
 
         <ShellContent 
             Title="Favourites"
@@ -23,9 +24,4 @@
             Icon="setting.jpg"
             ContentTemplate="{DataTemplate pages:Settingpage}" />
     </TabBar>
-    <!-- register page -->
-    <ShellContent 
-        Route="MapPage"
-        ContentTemplate="{DataTemplate pages:Weathermap}" />
-
 </Shell>

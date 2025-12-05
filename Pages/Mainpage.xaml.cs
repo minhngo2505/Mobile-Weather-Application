@@ -2,20 +2,52 @@
 using MauiApp1.Models;
 using MauiApp1.Service;
 using Microsoft.Maui.Controls;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using Microsoft.Maui.Storage;
+using Microsoft.Maui.Platform;
 
 namespace MauiApp1.Pages;
-
+[QueryProperty(nameof(CityQuery), "city")]
 public partial class Mainpage : ContentPage
 {
     private readonly WeatherService _weatherService = new();
 
+    private WeatherInfo? _lastWeather;
+    private bool isCelsius => Preferences.Get("units", "C") == "C";
+
+    public string CityQuery
+    {
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Dispatcher.Dispatch(async () =>
+                {
+                    await LoadWeatherAsync(value);
+                    await LoadTenDaysAsync(value);
+                });
+            }
+        }
+    }
+
     public Mainpage()
     {
         InitializeComponent();
-        _ = LoadWeatherAsync("Perth");
-        _ = LoadTenDaysAsync("perth");
-       
     }
+    
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_lastWeather == null)
+        {
+            await LoadWeatherAsync("Perth");
+            await LoadTenDaysAsync("Perth");
+
+        }
+    }
+
 
     private async Task LoadWeatherAsync(string city)
     {
@@ -25,19 +57,33 @@ public partial class Mainpage : ContentPage
             FeelsLikeLabel.Text = HumidityLabel.Text = WindLabel.Text = "-";
 
             var weather = await _weatherService.GetWeatherAsync(city);
+            
 
             if (weather == null)
             {
                 await DisplayAlert("Error", "Unable to load weather data.", "OK");
                 return;
             }
-
+            _lastWeather = weather;
             CityLabel.Text = weather.City;
-            TempLabel.Text = $"{weather.TempC}°C | {weather.Condition}";
-            FeelsLikeLabel.Text = $"{weather.FeelsLikeC}°C";
+            if (isCelsius )
+            {
+                double t = weather.TempC;
+                double f = weather.FeelsLikeC;
+                TempLabel.Text = $"{t}°C | {weather.Condition}";
+                FeelsLikeLabel.Text = $"{f}°C";
+            }
+            else
+            {
+                double tF = (weather.TempC * 9 / 5) + 32;
+                double fF = (weather.FeelsLikeC * 9 / 5) + 32;
+                TempLabel.Text = $"{tF:0.#}°F | {weather.Condition}";
+                FeelsLikeLabel.Text = $"{fF:0.#}°F";
+            }
             HumidityLabel.Text = $"{weather.Humidity}%";
             WindLabel.Text = $"{weather.WindKph} km/h"; 
             WeatherImage.Source = weather.IconUrl;
+            
             await LoadHourlyAsync(city, weather.LocalTime);
 
         }
@@ -90,6 +136,7 @@ public partial class Mainpage : ContentPage
         await LoadTenDaysAsync(city);
         
 
+
     }
     private async Task LoadTenDaysAsync(string city)
     {
@@ -113,6 +160,7 @@ public partial class Mainpage : ContentPage
         {
             string city = item.Text.Split(',')[0];
             await LoadWeatherAsync(city);
+            await LoadTenDaysAsync(city);
         }
     }
 
@@ -122,4 +170,20 @@ public partial class Mainpage : ContentPage
         await LoadWeatherAsync(CityLabel.Text ?? "Perth");
     }
 
+    private async void OnMapButtonClicked(object sender, EventArgs e)
+    {
+        if (_lastWeather == null)
+            return;
+        String lat = _lastWeather.Lat.ToString(CultureInfo.InvariantCulture);
+        String lon = _lastWeather.Lon.ToString(CultureInfo.InvariantCulture);
+        await Shell.Current.GoToAsync($"MapPage?lat={lat}&lon={lon}");
+        
+    }
+    public void OnstarTapped(object sender, EventArgs e)
+    {
+        if (_lastWeather == null)
+            return;
+         FavoriteService.Add(_lastWeather.City);
+         DisplayAlert("Success", $"{_lastWeather.City} added to favorites.", "OK");
+    }
 }

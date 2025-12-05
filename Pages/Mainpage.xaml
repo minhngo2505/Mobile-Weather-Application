@@ -3,22 +3,36 @@
     x:Class="MauiApp1.Pages.Mainpage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="#1A1A1A">
+    BackgroundColor="{DynamicResource PageBackgroundColor}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- 🔍 SEARCH -->
         <Border Grid.Row="0" Margin="15"
-                Stroke="#444" StrokeThickness="1"
-                BackgroundColor="#222" Padding="8"
+                Stroke="{DynamicResource SecondaryTextColor}" StrokeThickness="1"
+                BackgroundColor="{DynamicResource PrimaryColor}" Padding="8"
                 StrokeShape="RoundRectangle 15">
-            <SearchBar x:Name="CitySearchBar"
-                       Placeholder="Search city..."
-                       TextColor="White"
-                       PlaceholderColor="#888"
-                       SearchButtonPressed="OnSearchPressed"
-                       BackgroundColor="Transparent"
-                       FontSize="18"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <SearchBar x:Name="CitySearchBar"
+                               Placeholder="Search city..."
+                               TextColor="{DynamicResource PrimaryTextColor}"
+                               PlaceholderColor="{DynamicResource SecondaryTextColor}"
+                               SearchButtonPressed="OnSearchPressed"
+                               BackgroundColor="Transparent"
+                               Grid.Column="0"
+                               FontSize="{DynamicResource AppFontSize}"/>
+                <Image Source="star.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnstarTapped"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+            </Grid>
         </Border>
 
 
@@ -31,14 +45,14 @@
                     <Label x:Name="CityLabel"
                            Text="Perth, AU"
                            FontSize="34"
-                           TextColor="White"
+                           TextColor="{DynamicResource PrimaryTextColor}"
                            HorizontalOptions="Center"
                            FontAttributes="Bold"/>
 
                     <Label x:Name="TempLabel"
                            Text="21°C | Clear"
                            FontSize="26"
-                           TextColor="White"
+                           TextColor="{DynamicResource PrimaryTextColor}"
                            HorizontalOptions="Center"/>
 
                     <Image x:Name="WeatherImage"
@@ -56,34 +70,34 @@
                       RowSpacing="12">
 
                     <!-- Feels like -->
-                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12">
+                    <Border Background="{DynamicResource PrimaryColor}" Stroke="{DynamicResource SecondaryTextColor}" StrokeShape="RoundRectangle 12">
                         <VerticalStackLayout Padding="12">
-                            <Label Text="Feels Like" TextColor="#aaa" />
-                            <Label x:Name="FeelsLikeLabel" Text="20°C" TextColor="White" FontSize="20"/>
+                            <Label Text="Feels Like" TextColor="{DynamicResource PrimaryTextColor}" />
+                            <Label x:Name="FeelsLikeLabel" Text="20°C" TextColor="{DynamicResource SecondaryTextColor}" FontSize="{DynamicResource AppFontSize}"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- Humidity -->
-                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Column="1">
+                    <Border Background="{DynamicResource PrimaryColor}" Stroke="{DynamicResource SecondaryTextColor}" StrokeShape="RoundRectangle 12" Grid.Column="1">
                         <VerticalStackLayout Padding="12">
-                            <Label Text="Humidity" TextColor="#aaa" />
-                            <Label x:Name="HumidityLabel" Text="60%" TextColor="White" FontSize="20"/>
+                            <Label Text="Humidity" TextColor="{DynamicResource PrimaryTextColor}" />
+                            <Label x:Name="HumidityLabel" Text="60%" TextColor="{DynamicResource SecondaryTextColor}" FontSize="{DynamicResource AppFontSize}"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- UV -->
-                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Row="1">
+                    <Border Background="{DynamicResource PrimaryColor}" Stroke="{DynamicResource SecondaryTextColor}" StrokeShape="RoundRectangle 12" Grid.Row="1">
                         <VerticalStackLayout Padding="12">
-                            <Label Text="UV Index" TextColor="#aaa" />
-                            <Label x:Name="UVLabel" Text="5 Moderate" TextColor="White" FontSize="20"/>
+                            <Label Text="UV Index" TextColor="{DynamicResource PrimaryTextColor}" />
+                            <Label x:Name="UVLabel" Text="5 Moderate" TextColor="{DynamicResource SecondaryTextColor}" FontSize="{DynamicResource AppFontSize}"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <!-- Wind -->
-                    <Border Background="#222" Stroke="#444" StrokeShape="RoundRectangle 12" Grid.Row="1" Grid.Column="1">
+                    <Border Background="{DynamicResource PrimaryColor}" Stroke="{DynamicResource SecondaryTextColor}" StrokeShape="RoundRectangle 12" Grid.Row="1" Grid.Column="1">
                         <VerticalStackLayout Padding="12">
-                            <Label Text="Wind" TextColor="#aaa" />
-                            <Label x:Name="WindLabel" Text="12 km/h NW" TextColor="White" FontSize="20"/>
+                            <Label Text="Wind" TextColor="{DynamicResource PrimaryTextColor}" />
+                            <Label x:Name="WindLabel" Text="12 km/h NW" TextColor="{DynamicResource SecondaryTextColor}" FontSize="{DynamicResource AppFontSize}"/>
                         </VerticalStackLayout>
                     </Border>
 
@@ -91,13 +105,13 @@
 
 
                 <!-- HOURLY FORECAST -->
-                <Border Stroke="#CCCCCC" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                <Border Stroke="{DynamicResource SecondaryTextColor}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
                     <VerticalStackLayout Padding="10" Spacing="10">
 
                         <Label Text="Hourly Forecast"
-                    FontAttributes="Bold"
-                    FontSize="20" 
-                        TextColor="#ccc"/>
+                                FontAttributes="Bold"
+                                FontSize="20" 
+                                TextColor="{DynamicResource PrimaryTextColor}"/>
 
                         <CollectionView x:Name="HourlyForecastView"
                             ItemsLayout="HorizontalList"
@@ -106,7 +120,7 @@
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Stroke="#ccc"  StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="8"
+                                    <Border Stroke="{DynamicResource SecondaryTextColor}"  StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="8"
                                 WidthRequest="80"
                                 Margin="5">
 
@@ -115,25 +129,23 @@
                                             <Label Text="{Binding Time}"
                                         FontSize="14"
                                         HorizontalOptions="Center"
-                                        TextColor="Black" />
+                                        TextColor="{DynamicResource PrimaryTextColor}" />
 
                                             <Image Source="{Binding IconUrl}"
                                         HeightRequest="40"
                                         HorizontalOptions="Center" />
 
-                                            <Label Text="{Binding TempC}"
+                                            <Label Text="{Binding TempDisplay}" 
                                         FontSize="14"
                                         HorizontalOptions="Center"
-                                        TextColor="Black" />
+                                        TextColor="{DynamicResource PrimaryTextColor}" />
 
                                         </VerticalStackLayout>
 
                                     </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
-
                         </CollectionView>
-
                     </VerticalStackLayout>
                 </Border>
 
@@ -141,43 +153,41 @@
                 <!-- 10 DAY FORECAST -->
                 <!-- 📅 10-DAY FORECAST -->
                 <!-- in fact just 3 days forecast appears because that meet the free limit , we can update the VIP package to get full version of 10 days forecast -->
-                <Border Stroke="#CCCCCC" StrokeThickness="1" StrokeShape="RoundRectangle 15">
+                <Border  Stroke="{DynamicResource SecondaryTextColor}" StrokeThickness="1" StrokeShape="RoundRectangle 15">
                     <VerticalStackLayout Padding="10" Spacing="10">
 
                         <Label Text="10-Day Forecast"
-                   FontAttributes="Bold"
-                   FontSize="20"
-                               TextColor="#ccc"/>
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="{DynamicResource PrimaryTextColor}"/>
 
                         <CollectionView x:Name="TenDayForecast"
                             HeightRequest="400">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Stroke="#CCCCCC"
-                                StrokeShape="RoundRectangle 10"
-                                Padding="10"
-                                Margin="5">
-                                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="15">
+                                    <Border Stroke="{DynamicResource SecondaryTextColor}"
+                                            StrokeShape="RoundRectangle 10"
+                                            Padding="10"
+                                            Margin="5">
+                                        <Grid ColumnDefinitions="*,Auto, Auto, Auto" ColumnSpacing="15" >
 
                                             <!-- Day -->
                                             <Label Text="{Binding Day}" 
-                                       FontAttributes="Bold" 
-                                       Grid.Column="0"
-                                                   TextColor="#ccc"/>
-
+                                                   FontAttributes="Bold" 
+                                                   Grid.Column="0"
+                                                   TextColor="{DynamicResource PrimaryTextColor}"/>
+                                            <!-- max Temp -->
+                                            <Label  Text="{Binding MaxTempDisplay}" 
+                                                    TextColor="{DynamicResource PrimaryTextColor}"
+                                                    Grid.Column="1"/>
                                             <!-- Icon -->
                                             <Image Source="{Binding IconUrl}"
-                                       HeightRequest="30"
-                                       Grid.Column="1"/>
-
-                                            <!-- Temps -->
-                                            <Label  Text="{Binding MaxTemp}" 
-                                       TextColor="black"
-                                       Grid.Column="2"/>
-
-                                            <Label Text="{Binding MinTemp}"
-                                       TextColor="black"
-                                       Grid.Column="3"/>
+                                                   HeightRequest="30"
+                                                   Grid.Column="2"/>
+                                            <!--Min temp-->
+                                            <Label Text="{Binding MinTempDisplay}"
+                                                   TextColor="{DynamicResource PrimaryTextColor}"
+                                                   Grid.Column="3"/>    
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -185,7 +195,25 @@
                         </CollectionView>
 
                     </VerticalStackLayout>
+                    
                 </Border>
+                <Button 
+                        x:Name="MapButton"
+                        Text="Open Weather Map"
+                        ImageSource="map.png"
+                        BackgroundColor="{DynamicResource PrimaryColor}"
+                        TextColor="{DynamicResource PrimaryTextColor}"
+                        CornerRadius="25"
+                        HeightRequest="55"
+                        WidthRequest="220"
+                        HorizontalOptions="Center"
+                        Padding="10"
+                        Clicked="OnMapButtonClicked"
+                        Margin="0,10,0,25">
+                    <Button.Shadow>
+                        <Shadow Brush="#00000055" Opacity="0.4" Radius="8" />
+                    </Button.Shadow>
+                </Button>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
