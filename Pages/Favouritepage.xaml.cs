@@ -39,8 +39,9 @@ public partial class Favouritepage : ContentPage
 			var tap = new TapGestureRecognizer();
 			tap.Tapped += async (s, e) =>
 			{
-				await Shell.Current.GoToAsync($"Mainpage?city={city}");
-			};
+                var encoded = Uri.EscapeDataString(city).Trim();
+                await Shell.Current.GoToAsync($"//Mainpage?city={encoded}");
+            };
 			lable.GestureRecognizers.Add(tap);
 			box.Content = lable;
 			FavContainer.Children.Add(box);

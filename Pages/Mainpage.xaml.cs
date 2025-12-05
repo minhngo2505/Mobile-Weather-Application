@@ -8,7 +8,7 @@ using Microsoft.Maui.Storage;
 using Microsoft.Maui.Platform;
 
 namespace MauiApp1.Pages;
-
+[QueryProperty(nameof(CityQuery), "city")]
 public partial class Mainpage : ContentPage
 {
     private readonly WeatherService _weatherService = new();
@@ -16,22 +16,36 @@ public partial class Mainpage : ContentPage
     private WeatherInfo? _lastWeather;
     private bool isCelsius => Preferences.Get("units", "C") == "C";
 
+    public string CityQuery
+    {
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Dispatcher.Dispatch(async () =>
+                {
+                    await LoadWeatherAsync(value);
+                    await LoadTenDaysAsync(value);
+                });
+            }
+        }
+    }
+
     public Mainpage()
     {
         InitializeComponent();
     }
+    
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        string city = CityLabel.Text;
-        if (string.IsNullOrWhiteSpace(city))
+        if (_lastWeather == null)
         {
-            city = "Perth";
-        }
+            await LoadWeatherAsync("Perth");
+            await LoadTenDaysAsync("Perth");
 
-        await LoadWeatherAsync(city);
-        await LoadTenDaysAsync(city);
+        }
     }
 
 

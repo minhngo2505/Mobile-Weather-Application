@@ -11,6 +11,7 @@
         <ShellContent 
             Title="Home"
             Icon="home.jpg"
+            Route="Mainpage"
             ContentTemplate="{DataTemplate pages:Mainpage}"  />
 
         <ShellContent 
