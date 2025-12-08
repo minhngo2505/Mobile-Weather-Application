@@ -6,25 +6,26 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using Microsoft.Maui.Storage;
 using Microsoft.Maui.Platform;
+using System.Threading.Tasks;
 
 namespace MauiApp1.Pages;
-[QueryProperty(nameof(CityQuery), "city")]
-public partial class Mainpage : ContentPage
+[QueryProperty(nameof(CityQuery), "city")] // Query property to receive city name from navigation
+public partial class Mainpage : ContentPage // Main page displaying weather information
 {
-    private readonly WeatherService _weatherService = new();
+    private readonly WeatherService _weatherService = new(); // Service to fetch weather data
 
-    private WeatherInfo? _lastWeather;
-    private bool isCelsius => Preferences.Get("units", "C") == "C";
+    private WeatherInfo? _lastWeather; // Store the last loaded weather info
+    private bool isCelsius => Preferences.Get("units", "C") == "C"; // Check user preference for temperature unit
 
-    public string CityQuery
+    public string CityQuery // Property to receive city name from navigation
     {
         set
         {
-            if (!string.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(value))// Validate the city name
             {
-                Dispatcher.Dispatch(async () =>
+                Dispatcher.Dispatch(async () => // Use Dispatcher to ensure UI thread access
                 {
-                    await LoadWeatherAsync(value);
+                    await LoadWeatherAsync(value); // Load weather for the specified city
                     await LoadTenDaysAsync(value);
                 });
             }
@@ -33,39 +34,39 @@ public partial class Mainpage : ContentPage
 
     public Mainpage()
     {
-        InitializeComponent();
+        InitializeComponent(); // Initialize UI components
     }
     
-    protected override async void OnAppearing()
+    protected override async void OnAppearing() // Override OnAppearing to load default weather data
     {
-        base.OnAppearing();
+        base.OnAppearing(); // Call base method
 
-        if (_lastWeather == null)
+        if (_lastWeather == null)// Load default city weather if none is loaded
         {
-            await LoadWeatherAsync("Perth");
+            await LoadWeatherAsync("Perth");// Default city
             await LoadTenDaysAsync("Perth");
 
         }
     }
 
 
-    private async Task LoadWeatherAsync(string city)
+    private async Task LoadWeatherAsync(string city) // Method to load weather data for a specified city
     {
-        try
+        try// Try-catch for error handling
         {
-            TempLabel.Text = "Loading...";
-            FeelsLikeLabel.Text = HumidityLabel.Text = WindLabel.Text = "-";
+            TempLabel.Text = "Loading...";// Indicate loading state
+            FeelsLikeLabel.Text = HumidityLabel.Text = WindLabel.Text = "-";// Reset other labels
 
-            var weather = await _weatherService.GetWeatherAsync(city);
-            
+            var weather = await _weatherService.GetWeatherAsync(city);// Fetch weather data
 
-            if (weather == null)
+
+            if (weather == null)// Handle null response
             {
                 await DisplayAlert("Error", "Unable to load weather data.", "OK");
                 return;
             }
-            _lastWeather = weather;
-            CityLabel.Text = weather.City;
+            _lastWeather = weather; // Store the last loaded weather info
+            CityLabel.Text = weather.City; // Update UI with fetched data
             if (isCelsius )
             {
                 double t = weather.TempC;
@@ -84,7 +85,7 @@ public partial class Mainpage : ContentPage
             WindLabel.Text = $"{weather.WindKph} km/h"; 
             WeatherImage.Source = weather.IconUrl;
             
-            await LoadHourlyAsync(city, weather.LocalTime);
+            await LoadHourlyAsync(city, weather.LocalTime); // Load hourly forecast
 
         }
         catch (Exception ex)
@@ -93,25 +94,25 @@ public partial class Mainpage : ContentPage
         }
         
     }
-    private async Task LoadHourlyAsync(string city, string LocalTime)
+    private async Task LoadHourlyAsync(string city, string LocalTime) // Method to load hourly forecast data
     {
         try
         {
-            var service = new HourlyService();
-            var hourlyList = await service.GetHourlyInfoAsync(city);
+            var service = new HourlyService(); // Service to fetch hourly data
+            var hourlyList = await service.GetHourlyInfoAsync(city); // Fetch hourly data
 
-            if (hourlyList == null || hourlyList.Count == 0)
+            if (hourlyList == null || hourlyList.Count == 0) // Handle null or empty response
                 return;
 
-            var locTime = DateTime.Parse(LocalTime);
-            int currentHour = locTime.Hour;            
-            var rotated = hourlyList
-                .Skip(currentHour)
-                .Concat(hourlyList.Take(currentHour))
-                .Take(24)
-                .ToList();
+            var locTime = DateTime.Parse(LocalTime); // Parse local time
+            int currentHour = locTime.Hour;            // Get current hour
+            var rotated = hourlyList // Rotate the list to start from current hour
+                .Skip(currentHour) // Skip hours before current hour
+                .Concat(hourlyList.Take(currentHour)) // Append skipped hours to the end
+                .Take(24) // Take only the next 24 hours
+                .ToList(); // Convert to list
 
-            HourlyForecastView.ItemsSource = rotated;
+            HourlyForecastView.ItemsSource = rotated; // Update UI with hourly data
         }
         catch (Exception ex)
         {
@@ -126,18 +127,28 @@ public partial class Mainpage : ContentPage
     // 🔍 SEARCH BAR EVENTS
     private async void OnSearchPressed(object sender, EventArgs e)
     {
-        string city = CitySearchBar.Text?.Trim() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(city))
+        string city = CitySearchBar.Text?.Trim() ?? string.Empty; // Get city name from search bar
+        if (string.IsNullOrWhiteSpace(city)) // Validate input
         {
             await DisplayAlert("Input Required", "Please enter a city name.", "OK");
             return;
         }
-        await LoadWeatherAsync(city);
-        await LoadTenDaysAsync(city);
-        
+        await LoadWeatherAsync(city); // Load weather for the specified city
+        await LoadTenDaysAsync(city); // Load 10-day forecast for the specified city
+
 
 
     }
+    private async void OnSearchUnfocused(object sender, FocusEventArgs e)
+{
+    string city = CitySearchBar.Text?.Trim() ?? string.Empty;
+
+    if (string.IsNullOrWhiteSpace(city))
+    {
+        await DisplayAlert("Input Required", "Please enter a city name.", "OK");
+        return;
+    }
+}
     private async Task LoadTenDaysAsync(string city)
     {
         try
@@ -175,15 +186,23 @@ public partial class Mainpage : ContentPage
         if (_lastWeather == null)
             return;
         String lat = _lastWeather.Lat.ToString(CultureInfo.InvariantCulture);
-        String lon = _lastWeather.Lon.ToString(CultureInfo.InvariantCulture);
+        String lon = _lastWeather.Lon.ToString(CultureInfo.InvariantCulture); // Convert to string with invariant culture
         await Shell.Current.GoToAsync($"MapPage?lat={lat}&lon={lon}");
         
     }
-    public void OnstarTapped(object sender, EventArgs e)
+    private async void OnstarTapped(object sender, TappedEventArgs e)
     {
         if (_lastWeather == null)
             return;
-         FavoriteService.Add(_lastWeather.City);
-         DisplayAlert("Success", $"{_lastWeather.City} added to favorites.", "OK");
+        string city = _lastWeather.City;
+
+        if (FavoriteService.Exits(city))
+        {
+            await DisplayAlert("info", $"{city} is already in your favorites.","ok");
+            return;
+        }
+        
+         FavoriteService.Add(city);
+         await DisplayAlert ("Success", $"{_lastWeather.City} added to favorites.", "OK");
     }
 }

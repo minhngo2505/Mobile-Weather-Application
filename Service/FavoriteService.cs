@@ -42,5 +42,10 @@ namespace MauiApp1.Service
                 SaveAll(list);
             }
         }
+        public static bool Exits(string city)
+        {
+            var list = GetAll();
+            return list.Contains(city);
+        }
     }
 }
